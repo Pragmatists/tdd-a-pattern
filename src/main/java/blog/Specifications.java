@@ -1,48 +1,57 @@
 package blog;
 
-import java.util.Arrays;
 import java.util.Date;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 public class Specifications {
 
-//    private static final Specification trueSpecification = (blog) -> true;
+    private static final Specification trueSpecification = new Specification() {
+
+        @Override
+        public void applyOnCriteria(Criteria criteria) {
+        }
+
+    };
     
     public static Specification withTitle(String title) {
-        return entry -> entry.getTitle().equals(title);
+        
+        return new Specification() {
+
+            @Override
+            public void applyOnCriteria(Criteria criteria) {
+                criteria.add(Restrictions.eq("title", title));
+            }
+        };
     }
 
     public static Specification withTitleLike(String titlePart) {
-        return entry -> entry.getTitle().contains(titlePart);
+        return trueSpecification;
     }
     
     public static Specification publishedBefore(Date until) {
-        return entry -> entry.getPublished().before(until);
+        return trueSpecification;
     }
 
     public static Specification publishedAfter(Date since) {
-        return entry -> entry.getPublished().after(since);
+        return trueSpecification;
     }
     
     public static Specification withTag(String tag) {
-        return entry -> entry.getTags().contains(tag);
+        return trueSpecification;
     }
     
     public static Specification and(Specification... specifications) {
-        return entry -> Arrays.asList(specifications)
-                .stream()
-                .map(x -> x.isSatisfiedBy(entry))
-                .reduce(true, (a, b) -> a && b);
+        return trueSpecification;
     }
     
     public static Specification or(Specification... specifications) {
-        return entry -> Arrays.asList(specifications)
-                .stream()
-                .map(x -> x.isSatisfiedBy(entry))
-                .reduce(false, (a, b) -> a || b);
+        return trueSpecification;
     }
     
     public static Specification not(Specification specification) {
-        return entry -> !specification.isSatisfiedBy(entry);
+        return trueSpecification;
     }
     
 }

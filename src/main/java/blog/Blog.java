@@ -1,23 +1,38 @@
 package blog;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 
 public class Blog {
 
-    private List<BlogEntry> entries = new ArrayList<BlogEntry>();
+    private Session session;
 
+    public Blog(Session session) {
+        this.session = session;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<BlogEntry> search(Specification specification){
 
-        return entries.stream().filter(blog -> specification.isSatisfiedBy(blog)).collect(Collectors.toList());
+        Criteria criteria = session.createCriteria(BlogEntry.class);
+        
+        specification.applyOnCriteria(criteria);
+        
+        return criteria.list();
     }
 
     public BlogEntry post(String title, List<String> tags, Date published) {
-        
+
         BlogEntry entry = new BlogEntry(title, tags, published);
-        entries.add(entry);
+        
+        session.persist(entry);
+        session.flush();
+
+        session.clear();
+            
         return entry;
     }
     

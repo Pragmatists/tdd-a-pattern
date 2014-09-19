@@ -1,7 +1,10 @@
 package blog;
 
+import org.hibernate.Criteria;
+
+
 public interface Specification {
 
-    public boolean isSatisfiedBy(BlogEntry entry);
+    public void applyOnCriteria(Criteria criteria);
     
 }
