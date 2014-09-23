@@ -1,14 +1,13 @@
 package blog;
 
-import static blog.Specifications.and;
-import static blog.Specifications.not;
-import static blog.Specifications.or;
-import static blog.Specifications.publishedAfter;
-import static blog.Specifications.publishedBefore;
-import static blog.Specifications.withTag;
-import static blog.Specifications.withTitle;
-import static blog.Specifications.withTitleLike;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,13 +15,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static blog.Specifications.withTitle;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BlogTest {
 
@@ -66,83 +60,43 @@ public class BlogTest {
     }
 
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_withTitleLike() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(withTitleLike("Pattern"));
-        
-        // then:
-        assertThat(entries).containsOnly(compositePatternExplained, domainDrivenDesignPatterns, howToTestDrivePattern);
     }
     
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_publishedBefore() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(publishedBefore(date("2014-02-06")));
-        
-        // then:
-        assertThat(entries).containsOnly(compositePatternExplained);
     }
     
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_publishedAfter() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(publishedAfter(date("2014-09-10")));
-        
-        // then:
-        assertThat(entries).containsOnly(junitTipsAndTricks);
     }
     
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_withTag() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(withTag("TDD"));
-        
-        // then:
-        assertThat(entries).containsOnly(howToTestDrivePattern, junitTipsAndTricks);
     }
 
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_and() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(and(withTitleLike("Pattern"), withTag("TDD")));
-        
-        // then:
-        assertThat(entries).containsOnly(howToTestDrivePattern);
     }
-    
+
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_or() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(or(publishedBefore(date("2014-02-06")), publishedAfter(date("2014-09-10"))));
-        
-        // then:
-        assertThat(entries).containsOnly(compositePatternExplained, junitTipsAndTricks);
     }
     
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_not() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(not(withTitleLike("Pattern")));
-        
-        // then:
-        assertThat(entries).containsOnly(junitTipsAndTricks);
     }
     
     @Test
+    @Ignore("Pending")
     public void shouldFindEntry_altogether() throws Exception {
-        
-        // when:
-        List<BlogEntry> entries = blog.search(and(publishedBefore(date("2014-09-10")), withTag("DesignPatterns"), not(withTitleLike("Composite"))));
-        
-        // then:
-        assertThat(entries).containsOnly(howToTestDrivePattern);
     }
     
     // --
